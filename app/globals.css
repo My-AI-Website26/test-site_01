@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: theme("colors.cream.100");
+  color: theme("colors.ink");
+}
+
+::selection {
+  background-color: theme("colors.terracotta.500");
+  color: theme("colors.cream.50");
+}
+
+.section-eyebrow {
+  @apply inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-terracotta-600;
+}
