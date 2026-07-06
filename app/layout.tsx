@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import { StructuredData } from "@/components/structured-data";
+import { SITE_URL } from "@/lib/site-data";
 import "./globals.css";
 
 const heading = Playfair_Display({
@@ -17,6 +19,7 @@ const body = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Torsbeanie | Corner Cafe, Catering & Bakes in Halstead",
   description:
     "Torsbeanie is a family-run corner cafe and mobile catering truck in Halstead, Essex, run by Ian and Vicki. Home of Cakes & Bakes by Tors — dine in, book the truck, or order a cake.",
@@ -33,6 +36,7 @@ export const metadata: Metadata = {
       "A family-run cafe, mobile catering truck, and bakery in Halstead, Essex — run by Ian and Vicki.",
     locale: "en_GB",
     type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
 };
 
@@ -43,7 +47,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-GB" className={`${heading.variable} ${body.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        {children}
+        <StructuredData />
+      </body>
     </html>
   );
 }

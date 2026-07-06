@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Heart, CakeSlice, Users } from "lucide-react";
 
 const HIGHLIGHTS = [
@@ -6,18 +7,21 @@ const HIGHLIGHTS = [
     title: "Family Run, Since Day One",
     description:
       "Ian and Vicki (known to most of Halstead simply as “Beanie”) built Torsbeanie on one idea: good food should feel like being looked after.",
+    image: { src: "/images/hero-owners.png", alt: "Ian and Vicki at Torsbeanie" },
   },
   {
     icon: CakeSlice,
     title: "Cakes & Bakes by Tors",
     description:
       "Vicki's baking is the heart of the business — from the cabinet at the cafe to the dessert table at your event, every bake is made from scratch.",
+    image: { src: "/images/bake-1.png", alt: "Fresh cakes and bakes by Tors" },
   },
   {
     icon: Users,
     title: "One Family, Two Ways to Meet Us",
     description:
       "Meet us at the cafe for a slow breakfast, or book the truck for your celebration — either way, it's the same family, food, and welcome.",
+    image: { src: "/images/bake-2.png", alt: "Torsbeanie food, ready to serve" },
   },
 ];
 
@@ -40,9 +44,18 @@ export function About() {
         </div>
 
         <div className="mt-16 grid gap-8 sm:grid-cols-3">
-          {HIGHLIGHTS.map(({ icon: Icon, title, description }) => (
+          {HIGHLIGHTS.map(({ icon: Icon, title, description, image }) => (
             <div key={title} className="rounded-3xl bg-cream-100 p-8 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-terracotta-600/10">
+              <div className="relative mx-auto h-40 w-full overflow-hidden rounded-2xl">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="mx-auto mt-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-terracotta-600/10">
                 <Icon className="h-7 w-7 text-terracotta-600" aria-hidden="true" />
               </div>
               <h3 className="mt-5 font-serif text-xl text-ink">{title}</h3>

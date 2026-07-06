@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Sun, UtensilsCrossed, PartyPopper, Tent, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -18,7 +19,16 @@ export function Services() {
             id="cafe"
             className="scroll-mt-28 rounded-[2rem] bg-cream-50 p-8 shadow-soft sm:p-10"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-olive-500/15">
+            <div className="relative h-48 w-full overflow-hidden rounded-2xl">
+              <Image
+                src="/images/cafe-interior.png"
+                alt="Inside the Torsbeanie corner cafe"
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="mt-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-olive-500/15">
               <UtensilsCrossed className="h-6 w-6 text-olive-600" aria-hidden="true" />
             </div>
             <h3 className="mt-6 font-serif text-2xl text-ink">
@@ -55,7 +65,16 @@ export function Services() {
             id="catering"
             className="scroll-mt-28 rounded-[2rem] bg-ink p-8 text-cream-50 shadow-[0_20px_45px_-14px_rgba(0,0,0,0.55)] sm:p-10"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-terracotta-500/25">
+            <div className="relative h-48 w-full overflow-hidden rounded-2xl">
+              <Image
+                src="/images/food-truck.png"
+                alt="The Torsbeanie catering food truck"
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="mt-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-terracotta-500/25">
               <Tent className="h-6 w-6 text-terracotta-400" aria-hidden="true" />
             </div>
             <h3 className="mt-6 font-serif text-2xl">
@@ -93,7 +112,7 @@ export function Services() {
                 href="#contact"
                 className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-terracotta-400 hover:text-terracotta-300"
               >
-                Send an Event Inquiry
+                Send an Event Enquiry
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
             </div>

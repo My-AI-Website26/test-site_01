@@ -16,6 +16,7 @@ const config: Config = {
         },
         ink: "#33261E",
         terracotta: {
+          300: "#DFA47C",
           400: "#D08554",
           500: "#C1653B",
           600: "#A8502B",

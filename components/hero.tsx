@@ -1,5 +1,7 @@
+import Image from "next/image";
 import { MapPin, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CONTACT } from "@/lib/site-data";
 
 export function Hero() {
   return (
@@ -42,7 +44,7 @@ export function Hero() {
 
           <div className="mt-10 flex items-center gap-2 text-sm font-medium text-ink/60">
             <MapPin className="h-4 w-4 text-terracotta-600" aria-hidden="true" />
-            10 Weavers Court, Halstead, Essex, CO9 2JN
+            {CONTACT.address}
           </div>
         </div>
 
@@ -55,8 +57,14 @@ export function Hero() {
                   Corner Cafe &middot; Catering &middot; Cakes &amp; Bakes by Tors
                 </p>
               </div>
-              <div className="flex h-80 items-center justify-center rounded-2xl border border-dashed border-cream-50/40 text-sm text-cream-50/60">
-                Image 1 placeholder
+              <div className="relative h-80 w-full overflow-hidden rounded-2xl border border-cream-50/30">
+                <Image
+                  src="/images/hero-owners.png"
+                  alt="Ian and Vicki outside the Torsbeanie corner cafe"
+                  fill
+                  sizes="(min-width: 640px) 384px, 100vw"
+                  className="object-cover"
+                />
               </div>
             </div>
           </div>

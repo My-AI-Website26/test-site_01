@@ -1,28 +1,27 @@
 "use client";
 
 import * as React from "react";
-import { MapPin, Phone, Mail, Facebook, Send, CheckCircle2 } from "lucide-react";
+import { MapPin, Phone, Mail, Facebook, Send, CheckCircle2, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select } from "@/components/ui/select";
+import { CONTACT, OPENING_HOURS } from "@/lib/site-data";
 
-const CONTACT = {
-  address: "10 Weavers Court, Halstead, Essex, CO9 2JN",
-  phoneDisplay: "07890 896846",
-  phoneHref: "tel:+447890896846",
-  email: "torsbeanie@proton.me",
-  facebook: "https://facebook.com/torsbeanie",
-  lat: 51.9432274,
-  lng: 0.6358559,
-};
+const FORMSPREE_ENDPOINT =
+  process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ?? "https://formspree.io/f/REPLACE_WITH_FORM_ID";
 
 const SERVICE_OPTIONS = [
   { value: "cafe-table", label: "Cafe Table Booking" },
   { value: "food-truck", label: "Food Truck Booking" },
   { value: "cake-order", label: "Cake Order" },
 ];
+
+// TODO: paste the real embed URL from Google Maps → Share → Embed a map,
+// replacing this string with the "src" value from the provided <iframe> snippet.
+const MAP_EMBED_SRC =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.0!2d0.6358559!3d51.9432274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDU2JzM1LjYiTiAwwrAzOCcwOS4xIkU!5e0!3m2!1sen!2suk!4v0000000000000";
 
 export function Contact() {
   const [submitted, setSubmitted] = React.useState(false);
@@ -33,26 +32,26 @@ export function Contact() {
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
-    const payload = {
-      name: String(data.get("name") ?? ""),
-      email: String(data.get("email") ?? ""),
-      service: String(data.get("service") ?? ""),
-      message: String(data.get("message") ?? ""),
-    };
+
+    // Honeypot: real visitors never fill this hidden field in; bots often do.
+    if (String(data.get("_gotcha") ?? "").trim() !== "") {
+      form.reset();
+      setSubmitted(true);
+      return;
+    }
 
     setSending(true);
     setError(null);
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        headers: { Accept: "application/json" },
+        body: data,
       });
 
       if (!response.ok) {
-        const body = await response.json().catch(() => null);
-        throw new Error(body?.error ?? "Failed to send message.");
+        throw new Error("Failed to send message.");
       }
 
       form.reset();
@@ -106,15 +105,30 @@ export function Contact() {
                   rel="noopener noreferrer"
                   className="text-ink/80 hover:text-terracotta-600"
                 >
-                  facebook.com/torsbeanie
+                  {CONTACT.facebookDisplay}
                 </a>
               </div>
+            </div>
+
+            <div className="space-y-3 rounded-3xl bg-cream-100 p-8">
+              <div className="flex items-center gap-3">
+                <Clock className="h-5 w-5 shrink-0 text-terracotta-600" aria-hidden="true" />
+                <p className="font-semibold text-ink">Opening Hours</p>
+              </div>
+              <ul className="space-y-1.5 text-sm text-ink/75">
+                {OPENING_HOURS.days.map(({ day, hours }) => (
+                  <li key={day} className="flex items-center justify-between gap-4">
+                    <span>{day}</span>
+                    <span className="text-ink/60">{hours}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <div className="overflow-hidden rounded-3xl shadow-soft">
               <iframe
                 title="Torsbeanie location map"
-                src={`https://www.google.com/maps?q=${CONTACT.lat},${CONTACT.lng}&z=16&output=embed`}
+                src={MAP_EMBED_SRC}
                 width="100%"
                 height="280"
                 style={{ border: 0 }}
@@ -180,6 +194,18 @@ export function Contact() {
                     name="message"
                     required
                     placeholder="Tell us about your event, booking, or cake order..."
+                  />
+                </div>
+
+                {/* Honeypot field: hidden from real visitors via CSS, left empty by them. */}
+                <div className="hidden" aria-hidden="true">
+                  <label htmlFor="_gotcha">Leave this field empty</label>
+                  <input
+                    id="_gotcha"
+                    name="_gotcha"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
                   />
                 </div>
 
