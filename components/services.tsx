@@ -53,7 +53,7 @@ export function Services() {
           {/* Catering pillar */}
           <div
             id="catering"
-            className="scroll-mt-28 rounded-[2rem] bg-ink p-8 text-cream-50 shadow-soft sm:p-10"
+            className="scroll-mt-28 rounded-[2rem] bg-ink p-8 text-cream-50 shadow-[0_20px_45px_-14px_rgba(0,0,0,0.55)] sm:p-10"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-terracotta-500/25">
               <Tent className="h-6 w-6 text-terracotta-400" aria-hidden="true" />

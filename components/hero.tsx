@@ -19,8 +19,8 @@ export function Hero() {
       <div className="relative mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 md:grid-cols-2 md:items-center">
         <div className="animate-fade-up">
           <p className="section-eyebrow">Halstead, Essex &middot; Family Run</p>
-          <h1 className="mt-4 font-serif text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl lg:text-6xl">
-            A warm welcome, wherever you find us
+          <h1 className="mt-4 text-balance font-serif text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl lg:text-6xl">
+            A warm welcome, wherever you find us.
           </h1>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink/70">
             Torsbeanie is Ian &amp; Vicki&apos;s family-run corner cafe &mdash;
@@ -55,13 +55,8 @@ export function Hero() {
                   Corner Cafe &middot; Catering &middot; Cakes &amp; Bakes by Tors
                 </p>
               </div>
-              <div className="space-y-3 text-sm">
-                <p className="rounded-2xl bg-cream-50/15 px-4 py-3">
-                  &ldquo;Met at the cafe, booked them for the wedding.&rdquo;
-                </p>
-                <p className="rounded-2xl bg-cream-50/15 px-4 py-3">
-                  &ldquo;Booked the truck for our fete, now regulars at the cafe.&rdquo;
-                </p>
+              <div className="flex h-80 items-center justify-center rounded-2xl border border-dashed border-cream-50/40 text-sm text-cream-50/60">
+                Image 1 placeholder
               </div>
             </div>
           </div>

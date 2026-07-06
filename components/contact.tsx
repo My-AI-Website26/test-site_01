@@ -26,25 +26,42 @@ const SERVICE_OPTIONS = [
 
 export function Contact() {
   const [submitted, setSubmitted] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const name = String(form.get("name") ?? "");
-    const email = String(form.get("email") ?? "");
-    const service = String(form.get("service") ?? "");
-    const message = String(form.get("message") ?? "");
-    const serviceLabel =
-      SERVICE_OPTIONS.find((option) => option.value === service)?.label ?? service;
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      name: String(data.get("name") ?? ""),
+      email: String(data.get("email") ?? ""),
+      service: String(data.get("service") ?? ""),
+      message: String(data.get("message") ?? ""),
+    };
 
-    const subject = `Enquiry: ${serviceLabel} — ${name}`;
-    const body = `Name: ${name}\nEmail: ${email}\nService needed: ${serviceLabel}\n\n${message}`;
+    setSending(true);
+    setError(null);
 
-    window.location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    setSubmitted(true);
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        throw new Error(body?.error ?? "Failed to send message.");
+      }
+
+      form.reset();
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send message.");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -113,10 +130,10 @@ export function Contact() {
               <div className="flex h-full flex-col items-center justify-center py-16 text-center">
                 <CheckCircle2 className="h-12 w-12 text-olive-600" aria-hidden="true" />
                 <h3 className="mt-4 font-serif text-2xl text-ink">
-                  Your email app should now be open
+                  Message sent
                 </h3>
                 <p className="mt-2 max-w-sm text-ink/65">
-                  Just hit send from there and we&apos;ll get back to you as soon as we can.
+                  Thanks for reaching out &mdash; we&apos;ll get back to you as soon as we can.
                 </p>
                 <Button
                   variant="outline"
@@ -166,9 +183,18 @@ export function Contact() {
                   />
                 </div>
 
-                <Button type="submit" size="lg" className="w-full sm:w-auto">
+                {error && (
+                  <p className="text-sm font-medium text-terracotta-600">{error}</p>
+                )}
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full sm:w-auto"
+                  disabled={sending}
+                >
                   <Send className="h-4 w-4" aria-hidden="true" />
-                  Send Enquiry
+                  {sending ? "Sending..." : "Send Enquiry"}
                 </Button>
               </form>
             )}
